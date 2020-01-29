@@ -1,16 +1,16 @@
-//個数制限付部分和問題
+//個数制限付き部分和問題
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-#define n 3;
-#define K 17;
+#define n 3
+#define K 17
 vector<int> a{3, 5, 8};
 vector<int> m{3, 2, 2};
 
 int main(){
-  vectoer<vector<bool>> dp(n+1, vector<bool>(k+1, false));
+  vector<vector<bool>> dp(n+1, vector<bool>(K+1, false));
   dp.at(0).at(0) = true;
   for(int i=0; i<n; i++){
     for(int j=0; j<K; j++){
