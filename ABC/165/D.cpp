@@ -13,13 +13,14 @@
 using namespace std;
 
 int main(){
-    long long int x=0, tmp, loc, ans=0;
-    string str;
-    cin >> str;
-    int n = str.size();
-    reverse(s.begin(), s.end());
-    for(int i=1; i<n; i++){
-        int buf = stoi(str.substr(0, i));
+    long long int a, b, n;
+    cin >>a >> b >> n;
+    for(int i=a; i<=b; i++){
+        if(i%k == 0){
+            cout << "OK" << endl;
+            return 0;
+        }
     }
+    cout << "NG" << endl;
     return 0;
 }
