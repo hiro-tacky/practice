@@ -9,26 +9,18 @@
 #include <iomanip>
 #include <climits>
 #include <string>
-
+#include <cmath> 
 using namespace std;
 
 int main(){
-    int n, m, buf, a, b, count=0;
-    cin >> n >> m;
-    vector<int> h(n);
-    vector<bool> check(n, true);
-    for(int i=0; i<n; i++){
-        cin >> buf;
-        h.at(i) = buf;
+    long long int x;
+    cin >> x;
+    for(int i= -118; i<=119; i++){
+        for(int j= -119; j<=118; j++){
+            if(pow(i, 5) - pow(j, 5) == x){
+                cout << i << " " << j << endl;
+                return 0;
+            }
+        }
     }
-    for(int i=0; i<m; i++){
-        cin >> a >> b;
-        if(h.at(a-1) < h.at(b-1)){ check.at(a-1) = false; }
-        else if(h.at(a-1) > h.at(b-1)){ check.at(b-1) = false; }
-        else if(h.at(a-1) == h.at(b-1)){ check.at(a-1) = false; check.at(b-1) = false; }
-    }
-    for(int i=0; i<check.size(); i++){
-        if(check.at(i)) count++;
-    }
-    cout << count << endl;
 }

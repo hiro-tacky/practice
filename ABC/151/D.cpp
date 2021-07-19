@@ -11,58 +11,62 @@
 #include <string>
 
 using namespace std;
+using p = pair<int, int>;
+const int ll[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-const int di = {-1, 0, 1, 0};
-const int dj
-
-int root(int x, queue<pair<int, int>> que, vector<vector<int>> buf){
-    pair<int, int> p = que.pop();
-    bool b=false;
-    if(check(p.first, p.second)){
-        while(que.empty()){
-            buf.at(p.first).at(p.second) = x;
-            if(check(p.first+1, p.second+1)) que.push(pair<int, int> (p.first+1, p.second+1));
-            if(check(p.first+1, p.second-1)) que.push(pair<int, int> (p.first+1, p.second-1));
-            if(check(p.first-1, p.second+1)) que.push(pair<int, int> (p.first-1, p.second+1));
-            if(check(p.first-1, p.second-1)) que.push(pair<int, int> (p.first-1, p.second-1));
+void show(vector<vector<int>> v){
+    cout << endl;
+    for(int i=0; i<v.size(); i++){
+        for(int j=0; j<v.at(i).size(); j++){
+            int tmp = v.at(i).at(j);
+            if(tmp < 100) cout << setw(3) << tmp << " ";
+            else cout << "INF ";
         }
-        return root(x+1, que, buf)
-    }else{
-        return 0;
+        cout << endl;
     }
-}
-
-bool check(int x, int y){
-    if(x<0 || x >= w || y<0 || y>=h || s.at(h).at(w)) return flase;
-    else return true;
-}
+} 
 
 int main(){
-    cin >> h >> h;
-    char c;
-    vector<vector<bool>> s(h, vector<bool>(w, false));
     int h, w;
-
+    cin >> h >> w;
+    char c;
+    vector<vector<bool>> s(w, vector<bool>(h));
+    vector<p> v;
     for(int i=0; i<h; i++){
         for(int j=0; j<w; j++){
             cin >> c;
             if(c == '.'){
-                w.at(j).at(i) = true;
+                s.at(j).at(i) = true;
+                v.push_back(pair<int, int> (j, i));
             }else if(c == '#'){
-                w.at(j).at(i) = false;
+                s.at(j).at(i) = false;
             }
         }
     }
-
-    for(int i=0; i<w; i++){
-        for(int j=0; j<h; j++){
-            if(s.at(i).at(j)){
-                vector<vector<int>> buf(h, vector<int>(w, INT_MAX));
-                queue<pair<int, int>> que;
-                que.push(pair<int, int> (i, j));
-                root(0, que, buf);
+    int ans=0;
+    for(p p_buf: v){
+        int s_x = p_buf.first, s_y = p_buf.second, max_cost = 0;
+        vector<vector<int>> cost_map(w, vector<int>(h, INT_MAX/2));
+        cost_map.at(s_x).at(s_y) = 0;
+        queue<p> que;
+        que.push(p (s_x, s_y));
+        while(!que.empty()){
+            p p_now = que.front();
+            int x = p_now.first, y = p_now.second;
+            que.pop();
+            int now_cost = cost_map.at(x).at(y) + 1;
+            for(int i=0; i<4; i++){
+                int n_x = x + ll[i][0], n_y = y + ll[i][1];
+                if(n_x<0 || n_x>=w || n_y<0 || n_y>=h)continue;
+                if(s.at(n_x).at(n_y) && now_cost < cost_map.at(n_x).at(n_y)){
+                    cost_map.at(n_x).at(n_y) = now_cost;
+                    que.push(p (n_x, n_y));
+                    if(max_cost < now_cost) max_cost = now_cost;
+                }
             }
         }
+        if(ans < max_cost) ans = max_cost;
     }
+    cout << ans << endl;
     return 0;
 }

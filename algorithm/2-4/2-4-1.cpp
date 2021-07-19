@@ -12,8 +12,7 @@ int main(){
     vector<int> a{10, 14, 20, 21};
     vector<int> b{10, 5, 2, 4};
     a.push_back(l);
-    b.push_back(0);
-    n++;
+    b.push_back(0); 
     
     priority_queue<int> queue;
     int ans = 0; //補給回数

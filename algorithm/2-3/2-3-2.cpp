@@ -1,4 +1,4 @@
-//動的計画法
+//最長共通部分列問題
 #include <iostream>
 #include <vector>
 #include <string>
@@ -9,28 +9,32 @@
 
 using namespace std;
 
+void show(vector<vector<int>> v){
+  for(vector<int> buf1 : v){
+    for(int buf2 : buf1){
+      cout << buf2 << " ";
+    }
+    cout << endl;
+  }
+}
+
 int main(){
   // input
-  int q;
-  cin >> q;
-  vector<pair <string, string>> dataset(q, pair <string, string>());
-  for(int i=0; i<q; i++){
-    cin >> dataset.at(i).first;
-    cin >> dataset.at(i).second;
-  }
-  // main
-  vector<vector<vector<int>>> dp(q, vector<vector<int>>(0, vector<int>()));
-  for(int i=0; i<q; i++){
-    dp.at(i) = vector<vector<int>> (dataset.at(i).first.length()+1, vector<int>(dataset.at(i).second.length()+1, 0));
-    for(int x=1; x < dataset.at(i).first.length()+1; x++){
-      for(int y=1; y < dataset.at(i).second.length()+1; y++){
-        if(dataset.at(i).first.at(x-1) == dataset.at(i).second.at(y-1)){
-          dp.at(i).at(x).at(y) = max({dp.at(i).at(x-1).at(y-1)+1, dp.at(i).at(x-1).at(y), dp.at(i).at(x).at(y-1)});
-        }else{
-          dp.at(i).at(x).at(y) = max(dp.at(i).at(x-1).at(y), dp.at(i).at(x).at(y-1));
-        }
+  int n, m;
+  cin >> n >> m;
+  string s, t;
+  cin >> s;
+  cin >> t;
+  vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+  for(int i=1; i<=n; i++){
+    for(int j=1; j<=m; j++){
+      if(s.at(i-1) != t.at(j-1)){
+        dp.at(i).at(j) = max(dp.at(i-1).at(j), dp.at(i).at(j-1));
+      }else{
+        dp.at(i).at(j) = dp.at(i-1).at(j-1)+ 1;
       }
     }
-    cout << dp.at(i).at(dataset.at(i).first.length()).at(dataset.at(i).second.length()) << endl;
   }
+  show(dp);
+  return 0;
 }

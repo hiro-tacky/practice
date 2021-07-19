@@ -1,39 +1,56 @@
-//動的計画法
+//ナップザック問題
+
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <utility>
 #include <numeric>
+#include <queue>
+#include <iomanip>
+#include <climits>
+#include <string>
 #include <cmath>
+#include <utility>
 
 using namespace std;
+using ll = long long int;
+using p = pair<int, int>;
+#define NUM 1000000007
 
-vector<vector<int>> rec;
-vector<pair<int, int>> vw;//first:value second:weight
+vector<vector<int>> dp;
+vector<pair<int, int>> wv;//first:value second:weight
 int n, w, sum;
 
-int dp(int step, int weight){
-  if(rec.at(step).at(weight) >= 0){
-    return rec.at(step).at(weight);
-  }else{
-    if(step == n-1) {
-      return 0;
-    }else{
-      rec.at(step).at(weight) = dp(step+1, weight+vw.at(step).second) + vw.at(step).first;
-    }else{
-      rec.at(step).at(weight) = dp(step+1, weight);
+void show(vector<vector<int>> v){
+  for(vector<int> buf1 : v){
+    for(int buf2 : buf1){
+      cout << buf2 << " ";
+    }
+    cout << endl;
+  }
+}
+
+int func(){
+  for(int i=1; i<=n; i++){
+    for(int j=0; j<=w; j++){
+      if(j < wv.at(i-1).first){
+        dp.at(i).at(j) = dp.at(i-1).at(j);
+      }else{
+        dp.at(i).at(j) = max(dp.at(i-1).at(j), dp.at(i-1).at(j - wv.at(i-1).first) + wv.at(i-1).second);
+      }
     }
   }
+  show(dp);
+  return dp.at(n).at(w);
 }
 
 int main(){
   cin >> n >> w;
-  vw.insert(vw.begin(), n, pair<int, int>());
-  rec.insert(rec.begin(), n, vector<int>(w+1, -1));
   for(int i=0; i<n; i++){
-    cin >> vw.at(i).first >> vw.at(i).second;//first:value second:weight
+    int tmp_w, tmp_v;
+    cin >> tmp_w >> tmp_v;
+    wv.push_back(p (tmp_w, tmp_v));
   }
-  // dp(0, 0, 0);
-  cout << sum << endl;
+  dp = vector<vector<int>> (n+1, vector<int>(w+1, 0));
+  cout << func() << endl;
 }

@@ -13,14 +13,9 @@
 using namespace std;
 
 int main(){
-    long long int a, b, n;
-    cin >>a >> b >> n;
-    for(int i=a; i<=b; i++){
-        if(i%k == 0){
-            cout << "OK" << endl;
-            return 0;
-        }
-    }
-    cout << "NG" << endl;
+    long long int a, b, n, buf, ans;
+    cin >> a >> b >> n;
+    buf = min(b-1, n);
+    cout << buf*a/b << endl;
     return 0;
 }
