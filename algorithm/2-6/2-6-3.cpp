@@ -1,4 +1,4 @@
-//素数判定
+//素数の個数
 
 #include <iostream>
 #include <vector>

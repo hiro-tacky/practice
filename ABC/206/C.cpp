@@ -21,23 +21,17 @@ using p = pair<long long int, long long int>;
 
 
 int main(){
-    ll n, k, ans=0, buf;
-    cin >> n >> k;
+    ll n, tmp, co =0;
+    cin >> n;
     vector<ll> v(n);
     map<ll, ll> mp;
     REP(i, n){
-        cin >> v.at(i);
+        cin >> tmp;
+        mp[tmp]++;
     }
-    REP(i, k){
-            mp[v.at(i)]++;
+    for(auto buf: mp){
+        if(buf.second > 0) co += buf.second*(buf.second-1)/2;
     }
-    ans = mp.size();
-    for(int i=k; i<n; i++){
-        mp[v.at(i-k)]--;
-        mp[v.at(i)]++;
-        if(mp[v.at(i-k)] == 0) mp.erase(v.at(i-k));
-        if(ans < mp.size()) ans = (int)mp.size();
-    }
-    cout << ans << endl;
+    cout << n*(n-1)/2 - co << endl;
     return 0;
 }

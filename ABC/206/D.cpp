@@ -2,10 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <numeric>
 #include <queue>
-#include <iomanip>
-#include <climits>
 #include <string>
 #include <cmath>
 #include <utility>
@@ -21,23 +18,23 @@ using p = pair<long long int, long long int>;
 
 
 int main(){
-    ll n, k, ans=0, buf;
-    cin >> n >> k;
+    ll n;
+    cin >> n;
     vector<ll> v(n);
-    map<ll, ll> mp;
+    map<pair<ll, ll>, ll> mp;
     REP(i, n){
         cin >> v.at(i);
     }
-    REP(i, k){
-            mp[v.at(i)]++;
+    REP(i, n/2){
+        if(v.at(i) != v.at(n-i-1)){
+            pair<ll, ll> tmp(min(v.at(i), v.at(n-i-1)), max(v.at(i), v.at(n-i-1)));
+            mp[tmp]++;
+            cout << tmp.first << " " << tmp.second << " " << mp[tmp] << endl;
+        }
     }
-    ans = mp.size();
-    for(int i=k; i<n; i++){
-        mp[v.at(i-k)]--;
-        mp[v.at(i)]++;
-        if(mp[v.at(i-k)] == 0) mp.erase(v.at(i-k));
-        if(ans < mp.size()) ans = (int)mp.size();
+    for(auto buf: mp){
+        
     }
-    cout << ans << endl;
+    cout << max((unsigned int)0, mp.size() - 1) << endl; 
     return 0;
 }

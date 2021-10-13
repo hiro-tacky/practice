@@ -1,4 +1,4 @@
-//素数判定
+//区間内の素数の個数
 
 #include <iostream>
 #include <vector>

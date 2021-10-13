@@ -12,19 +12,20 @@
 
 using namespace std;
 
-long long extGCD(long long a, long long b, long long &x, long long &y) {
+int extGCD(int a, int b, int &x, int &y) {
+    cout << a << " " << b << " " << x << " " << y << endl;
     if (b == 0) {
         x = 1;
         y = 0;
         return a;
     }
-    long long d = extGCD(b, a%b, y, x);
-    y -= a/b * x;
+    int d = extGCD(b, a%b, y, x);
+    y -= (a/b) * x;
     return d;
 }
 
 int main() {
-    long long x, y;
+    int x = 0, y = 0;
     extGCD(111, 30, x, y);
     cout << x << ", " << y << endl;
 }
